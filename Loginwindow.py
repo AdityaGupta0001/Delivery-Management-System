@@ -1,24 +1,22 @@
 from tkinter import *
-import signup_login
+import Signup_Login
 from pygame import mixer
 import Signup_Menu
-
-#pygame.init()
 
 def login():
 
     def back():
         window.destroy()
-        signup_login.display()
+        Signup_Login.display()
     def validation():
         existing=False
         password=False
         if entry0.get()=="" or entry1.get()=="":
             label1.config(text="Please enter the required information")
-            j=mixer.Sound("Error Tone.mp3")
+            j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
             j.play()
         elif entry0.get()!="" or entry1.get()!="":
-            with open("Account.txt","r") as acc:
+            with open("Delivery-Management-System/Account.txt","r") as acc:
                 reader1=acc.readlines()
                 for i in reader1:
                     lst0=i.replace("\n","")
@@ -28,10 +26,10 @@ def login():
                         break
             if existing==False:
                 label1.config(text="This account (Username) does not exist")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
             elif existing==True:
-                with open("Account.txt","r") as acc:
+                with open("Delivery-Management-System/Account.txt","r") as acc:
                     reader1=acc.readlines()
                     for i in reader1:
                         lst0=i.replace("\n","")
@@ -40,7 +38,7 @@ def login():
                             password=True
                 if password==False:
                     label1.config(text="Incorrect Password")
-                    j=mixer.Sound("Error Tone.mp3")
+                    j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                     j.play()
                 else:
                     window.destroy()
@@ -63,24 +61,24 @@ def login():
     canvas = Canvas(window,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"loginbackground.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/loginbackground.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"loginbutton.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/loginbutton.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = validation,relief = "flat")
     b0.place(x = 790, y = 709,width = 403,height = 66)
 
-    entry0_img = PhotoImage(file = f"textbox1.png")
+    entry0_img = PhotoImage(file = f"Delivery-Management-System/assets/images/textbox1.png")
     entry0_bg = canvas.create_image(992.0, 336.5,image = entry0_img)
     entry0 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font = ('Helvetica',18,'normal'))
     entry0.place(x = 782.0, y = 314,width = 420.0,height = 41)
 
-    entry1_img = PhotoImage(file = f"textbox1.png")
+    entry1_img = PhotoImage(file = f"Delivery-Management-System/assets/images/textbox1.png")
     entry1_bg = canvas.create_image(992.0, 432.5,image = entry1_img)
     entry1 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font = ('Helvetica',18,'normal'))
     entry1.place(x = 782.0, y = 410,width = 420.0,height = 41)
 
-    img1 = PhotoImage(file = f"noaccount.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/noaccount.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = back,relief = "flat")
     b1.place(x = 790, y = 477,width = 403,height = 31)
 

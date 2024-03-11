@@ -1,0 +1,12 @@
+tkinter
+pil
+smtplib
+email
+pygame
+webbrowser
+openrouteservice
+folium
+urllib
+json
+csv
+dotenv

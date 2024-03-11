@@ -1,5 +1,11 @@
 import openrouteservice
 import folium
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+
 coordinates_list ={"Haryana":[[77.09838732369364, 28.50036408080802],
                              [77.04502085438622,28.475792459532762],
                              [77.08699617059821,28.479827322463272],
@@ -24,9 +30,10 @@ coordinates_list ={"Haryana":[[77.09838732369364, 28.50036408080802],
                                     [77.34124039547493,28.586573067106183]]
                   ,"Rajasthan":[76.81237700556501,28.194173517872024]}
 
+API_KEY = os.getenv("LOCATION_API_KEY")
 global routetime,routedist
 def auto_mapper(long,lat,state):    
-    client=openrouteservice.Client(key='5b3ce3597851110001cf6248066c74a7f07b4b408d53404f9e43bb76')
+    client=openrouteservice.Client(key=API_KEY)
     minimum=[]
     for i in coordinates_list[state]:
         route = client.directions(coordinates=[i]+[[long,lat]],units="km",profile='cycling-electric',format='geojson')

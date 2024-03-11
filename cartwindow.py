@@ -53,7 +53,7 @@ def creator(order):
     yscrollbar.config(command=canvas.yview)
 
 
-    bullet_list=[PhotoImage(file = f"rand5.png"),PhotoImage(file = f"rand6.png"),PhotoImage(file = f"rand7.png"),PhotoImage(file = f"rand8.png"),PhotoImage(file = f"rand9.png")]
+    bullet_list=[PhotoImage(file = f"Delivery-Management-System/assets/images/rand5.png"),PhotoImage(file = f"Delivery-Management-System/assets/images/rand6.png"),PhotoImage(file = f"Delivery-Management-System/assets/images/rand7.png"),PhotoImage(file = f"Delivery-Management-System/assets/images/rand8.png"),PhotoImage(file = f"Delivery-Management-System/assets/images/rand9.png")]
     bullety3=156
 
     for i in range(len(d)):
@@ -63,10 +63,10 @@ def creator(order):
 
 
 
-    labelimages=PhotoImage(file = f"item labels.png")
-    img4 = PhotoImage(file = f"max.png")
-    img7=PhotoImage(file = f"cart box 2.png")
-    img3=PhotoImage(file = f"min.png")
+    labelimages=PhotoImage(file = f"Delivery-Management-System/assets/images/item labels.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/max.png")
+    img7=PhotoImage(file = f"Delivery-Management-System/assets/images/cart box 2.png")
+    img3=PhotoImage(file = f"Delivery-Management-System/assets/images/min.png")
     bullety=156
     bullety2=156
     bullety3=156
@@ -111,7 +111,7 @@ def creator(order):
 
     def checkout_win():
         global root,d
-        j=mixer.Sound("Error Tone.mp3")
+        j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
         total=0
         for i in d.values():
             total+=int(i)
@@ -121,7 +121,7 @@ def creator(order):
         else:
             j.play()
         
-    img10 = PhotoImage(file = f"back.png")
+    img10 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b10 = Button(
         image = img10,
         borderwidth = 0,
@@ -130,10 +130,10 @@ def creator(order):
         relief = "flat")
     canvas.create_window(44,42,window=b10)
 
-    img11=PhotoImage(file = f"CART2.png")
+    img11=PhotoImage(file = f"Delivery-Management-System/assets/images/CART2.png")
     canvas.create_image(159,44,image=img11)
 
-    img12=PhotoImage(file = f"checkout.png")
+    img12=PhotoImage(file = f"Delivery-Management-System/assets/images/checkout.png")
     b12 = Button(
         image = img12,
         borderwidth = 0,
@@ -157,9 +157,3 @@ def destructor():
     global root
     root.destroy()
     Signup_Menu.first_menu()
-    
-##op={"Tea":1,"Coffee":2,"Biscuit":3,"Cake":4}
-##creator(op)
-
-
-

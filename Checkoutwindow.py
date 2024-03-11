@@ -3,15 +3,19 @@ from tkinter import *
 import json
 from urllib.request import urlopen
 from pygame import mixer
+from dotenv import load_dotenv
+import os
 
 #Special ip locator module
 from ipdata import ipdata
 
 #Importing user-defined modules
-import cartwindow
+import Cartwindow
 import Geoservices
 import Billingwindow
-import menuprices
+import Menuprices
+
+load_dotenv()
 
 #Main checkout window 
 def checkout_win(d):
@@ -25,7 +29,7 @@ def checkout_win(d):
         
     def backer():
         root.destroy()
-        cartwindow.creator(order)
+        Cartwindow.creator(order)
     AdressEntryType="Auto"
     def Billing():
         
@@ -39,50 +43,50 @@ def checkout_win(d):
         #Validation of user-info entry boxes
         if entry3.get()=="" or entry4.get()=="" or entry6.get()=="":
             label2.configure(text="Please fill in the required fields")
-            j=mixer.Sound("Error Tone.mp3")
+            j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
             j.play()
         elif (entry6.get()).isdigit()==False:
             label2.configure(text="This field requires a phone numer as an input")
-            j=mixer.Sound("Error Tone.mp3")
+            j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
             j.play()
         elif len(entry6.get())!=10:
             label2.configure(text="Phone Number Validation failed")
-            j=mixer.Sound("Error Tone.mp3")
+            j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
             j.play()
 
         #Validation of address if the entry type is "Manual"
         elif AdressEntryType=="Manual":
             if entry0.get()=="" or entry1.get()=="" or entry2.get()=="" or entry5.get()=="":
                 label2.configure(text="Please fill in the required fields")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
             elif (entry0.get()).title() not in States_Suppliedto and (entry0.get()).title() in States_NotSuppliedto:
                 label2.configure(text="We currently do not supply to this state")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
             elif (entry0.get()).title() not in States_NotSuppliedto:
                 label2.configure(text="State name invalid")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
             elif (entry1.get()).title() not in City_Data.Supplied and (entry1.get()).title() in City_Data.All:
                 label2.configure(text="We currently do not supply to this city")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
             elif (entry1.get()).title() not in City_Data.All:
                 label2.configure(text="City name invalid")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
             elif (entry2.get()).isdigit()==False:
                 label2.configure(text="Postal Code has to be a digit")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
             elif len(entry2.get())!=6:
                 label2.configure(text="Postal Code has to be 6 digit long")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
             elif entry5.get()==str(entry2.get()):
                 label2.configure(text="Street Adress cannot be only digits")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
        
         else:
@@ -91,7 +95,8 @@ def checkout_win(d):
             r1 = urlopen(url)
             data1 = json.load(r1)
             IP1=data1['ip']
-            ipdat1 = ipdata.IPData('c8c021241765062f795d5bf8d004b69f37485ee1a3a06246f9e97cd7')
+            IPDATA_API_KEY = os.getenv("IPDATA_API_KEY")
+            ipdat1 = ipdata.IPData(IPDATA_API_KEY)
             out = ipdat1.lookup(IP1)
             reg=(entry0.get()).lower()
             if reg.title() in States_Suppliedto:
@@ -99,12 +104,12 @@ def checkout_win(d):
                 Geoservices.auto_mapper(out["longitude"],out["latitude"],reg.title())
                 #Saving the address in a text file
                 addressentry=f"{entry0.get()}-{entry1.get()}-{entry2.get()}-{entry5.get()}"
-                with open("Customer.txt",mode='a') as Cus:
+                with open("Delivery-Management-System/Customer.txt",mode='a') as Cus:
                     b1=f"{entry3.get()},{entry4.get()},{entry6.get()},{addressentry},{IP1}\n"
                     Cus.write(b1)
                 #Calculating total price
                 total_price=0
-                prices=menuprices.menu
+                prices=Menuprices.menu
                 for i in order.keys():
                     if i in prices.keys():
                         item_total=prices[i]*order[i]
@@ -115,7 +120,7 @@ def checkout_win(d):
                 Billingwindow.billing(total_price,final_price,d,nam)
             else:
                 label2.configure(text="Please manually enter the State name")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()   
        
     #Function to auto locate a device
@@ -126,7 +131,8 @@ def checkout_win(d):
         data = json.load(response)
         IP=data['ip']
         AdressEntryType="Auto"
-        ipdat = ipdata.IPData('c8c021241765062f795d5bf8d004b69f37485ee1a3a06246f9e97cd7')
+        IPDATA_API_KEY = os.getenv("IPDATA_API_KEY")
+        ipdat = ipdata.IPData(IPDATA_API_KEY)
         response = ipdat.lookup(IP)
         entry0.insert(END, response["region"])
         entry1.insert(END, response["city"])
@@ -173,36 +179,36 @@ def checkout_win(d):
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"checkoutbackground.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/checkoutbackground.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    entry0_img = PhotoImage(file = f"check_textBox0.png")
+    entry0_img = PhotoImage(file = f"Delivery-Management-System/assets/images/check_textBox0.png")
     entry0_bg = canvas.create_image(155.0, 613.5,image = entry0_img)
     entry0 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font=("Helvetica",18))
 
-    entry1_img = PhotoImage(file = f"check_textBox1.png")
+    entry1_img = PhotoImage(file = f"Delivery-Management-System/assets/images/check_textBox1.png")
     entry1_bg = canvas.create_image(397.0, 613.5,image = entry1_img)
     entry1 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font=("Helvetica",18))
 
-    entry2_img = PhotoImage(file = f"check_textBox2.png")
+    entry2_img = PhotoImage(file = f"Delivery-Management-System/assets/images/check_textBox2.png")
     entry2_bg = canvas.create_image(639.0, 613.5,image = entry2_img)
     entry2 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font=("Helvetica",18))
 
-    entry3_img = PhotoImage(file = f"check_textBox3.png")
+    entry3_img = PhotoImage(file = f"Delivery-Management-System/assets/images/check_textBox3.png")
     entry3_bg = canvas.create_image(155.0, 215.5,image = entry3_img)
     entry3 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font=("Helvetica",18))
     entry3.place(x = 58.0, y = 193,width = 194.0,height = 41)
 
-    entry4_img = PhotoImage(file = f"check_textBox4.png")
+    entry4_img = PhotoImage(file = f"Delivery-Management-System/assets/images/check_textBox4.png")
     entry4_bg = canvas.create_image(397.0, 215.5,image = entry4_img)
     entry4 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font=("Helvetica",18))
     entry4.place(x = 300.0, y = 193,width = 194.0,height = 41)
 
-    entry5_img = PhotoImage(file = f"check_textBox5.png")
+    entry5_img = PhotoImage(file = f"Delivery-Management-System/assets/images/check_textBox5.png")
     entry5_bg = canvas.create_image(397.0, 700.5,image = entry5_img)
     entry5 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font=("Helvetica",18))
 
-    entry6_img = PhotoImage(file = f"check_textBox6.png")
+    entry6_img = PhotoImage(file = f"Delivery-Management-System/assets/images/check_textBox6.png")
     entry6_bg = canvas.create_image(276.0, 306.5,image = entry6_img)
     entry6 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font=("Helvetica",18))
     entry6.place(x = 58.0, y = 284,width = 436.0,height = 41)
@@ -212,13 +218,13 @@ def checkout_win(d):
     entry2.place(x = 542.0, y = 591,width = 194.0,height = 41)
     entry5.place(x = 58.0, y = 678,width = 678.0,height = 41)
 
-    img0 = PhotoImage(file = f"back.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = backer,relief = "flat")
     b0.place(x = 19, y = 15,width = 59,height = 59)
 
     global img1,img2
-    img2 = PhotoImage(file = f"checked.png")
-    img1 = PhotoImage(file = f"unchecked.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/checked.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/unchecked.png")
     
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: radio("Auto"),relief = "flat")
     b1.place(x = 43, y = 453,width = 22,height = 22)
@@ -227,7 +233,7 @@ def checkout_win(d):
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: radio("Manual"),relief = "flat")
     b2.place(x = 43, y = 510,width = 22,height = 22)
 
-    img3 = PhotoImage(file = f"Terms.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/Terms.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = Billing,relief = "flat")
     b3.place(x = 873, y = 586,width = 352,height = 47)
 

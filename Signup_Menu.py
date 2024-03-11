@@ -8,8 +8,10 @@ import string
 import pygame
 from pygame import mixer
 import webbrowser
+import Cartwindow
+from dotenv import load_dotenv
 
-import cartwindow
+load_dotenv()
 
 #Initializing pygame
 pygame.init()
@@ -53,10 +55,8 @@ def signup_win():
     global root
     root=Tk()
     center()
-    EMAIL_ADDRESS="biteoclock.customerservice@gmail.com"
-    EMAIL_PASSWORD="iexglkqxoprgscye"
-##    EMAIL_ADDRESS=os.environ.get('EMAIL_ADDRESS')
-##    EMAIL_PASSWORD=os.environ.get('EMAIL_PASSWORD')
+    EMAIL_ADDRESS=os.getenv("MAILING_ADDRESS")
+    EMAIL_PASSWORD=os.getenv("MAILING_PASSWORD")
 
     #Validation of username
     def username(f):
@@ -120,7 +120,7 @@ def signup_win():
     def existinguser(a,b):
         global existing
         existing=False
-        with open("Account.txt","r") as acc:
+        with open("Delivery-Management-System/Account.txt","r") as acc:
             reader1=acc.readlines()
             for i in reader1:
                 lst0=i.replace("\n","")
@@ -146,13 +146,13 @@ def signup_win():
         if flag==0:
             if entry0.get() =="" or  entry1.get() =="" or entry3.get() =="" or entry4.get() =="":
                 label1.config(text="Please Enter the required information")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
                 flag=0
 
             elif entry1.get()!=entry3.get():
                 label1.config(text="Confirmation password does not match")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
                 flag=0
 
@@ -179,24 +179,24 @@ def signup_win():
                     flag=1
                 elif existing==True:
                     label1.config(text="This account already exists")
-                    j=mixer.Sound("Error Tone.mp3")
+                    j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                     j.play()
                 elif mailcheck==False:
                     label1.config(text="Please enter a valid email id")
-                    j=mixer.Sound("Error Tone.mp3")
+                    j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                     j.play()
                 elif passcheck==0:
                     label1.config(text="Password does not match conditions")
-                    j=mixer.Sound("Error Tone.mp3")
+                    j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                     j.play()
                 elif user==False:
                     label1.config(text="Please enter a valid username")
-                    j=mixer.Sound("Error Tone.mp3")
+                    j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                     j.play()
                 
                     
         elif flag==1:
-            with open("Account.txt",mode='a') as Acc:
+            with open("Delivery-Management-System/Account.txt",mode='a') as Acc:
                 a=f"{entry4.get()},{entry0.get()},{entry3.get()}\n"
                 Acc.write(a)
             if entry2.get() == x:
@@ -205,7 +205,7 @@ def signup_win():
                 first_menu()
             elif entry3.get() != x:
                 label1.config(text="Please recheck and re-enter the code")
-                j=mixer.Sound("Error Tone.mp3")
+                j=mixer.Sound("Delivery-Management-System/assets/sounds/Error Tone.mp3")
                 j.play()
                 flag=1
             
@@ -217,14 +217,14 @@ def signup_win():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"signbackground.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/signbackground.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"signbutton.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/signbutton.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = signup,relief = "flat")
     b0.place(x = 790, y = 709,width = 403,height = 66)
 
-    entry_img = PhotoImage(file = f"img_textBox.png")
+    entry_img = PhotoImage(file = f"Delivery-Management-System/assets/images/img_textBox.png")
     
     entry0_bg = canvas.create_image(992.0, 254.5,image = entry_img)
     entry0 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font = ('Helvetica',18,'normal'))
@@ -246,18 +246,12 @@ def signup_win():
     entry3 = Entry(bd = 0,bg = "#ffffff",highlightthickness = 0,font = ('Helvetica',18,'normal'))
     entry3.place(x = 782.0, y = 410,width = 420.0,height = 41)
 
-    img1 = PhotoImage(file = f"radioyes.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/radioyes.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = websiter,relief = "flat")
     b1.place(x = 1242, y = 668,width = 22,height = 22)
 
     label1=Label(root, text="", font = ('Helvetica',18,'normal'), bg="#ffffff", fg="#ff0000")
     label1.place(x = 756.0, y = 570,width = 473.0,height = 44)
-
-    entry0.insert(END, 'adityag860libra@gmail.com')
-    entry1.insert(END, "asAS!@12")
-    entry3.insert(END, "asAS!@12")
-    entry4.insert(END, "name123")
-
     
     root.resizable(False, False)
     root.mainloop()
@@ -276,26 +270,26 @@ def first_menu():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background 2.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background 2.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"menu1.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/menu1.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = north_indiansub,relief = "flat")
     b0.place(x = 27, y = 121,width = 1244,height = 109)
 
-    img1 = PhotoImage(file = f"menu2.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/menu2.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = beverages,relief = "flat")
     b1.place(x = 27, y = 657,width = 1244,height = 109)
 
-    img2 = PhotoImage(file = f"img2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/img2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = continental,relief = "flat")
     b2.place(x = 27, y = 389,width = 1244,height = 109)
 
-    img3 = PhotoImage(file = f"img3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/img3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = soupsal,relief = "flat")
     b3.place(x = 27, y = 523,width = 1244,height = 109)
 
-    img4 = PhotoImage(file = f"img4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/img4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = southindian,relief = "flat")
     b4.place(x = 27, y = 255,width = 1244,height = 109)
 
@@ -318,30 +312,30 @@ def north_indiansub():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_subn.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_subn.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"cart.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("north_indiansub"),relief = "flat")
     b0.place(x = 1133, y = 6,width = 83,height = 71)
 
-    img1 = PhotoImage(file = f"subn_1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/subn_1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = dessert,relief = "flat")
     b1.place(x = 978, y = 83,width = 309,height = 707)
 
-    img2 = PhotoImage(file = f"subn_2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/subn_2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = snacks,relief = "flat")
     b2.place(x = 13, y = 83,width = 309,height = 707)
 
-    img3 = PhotoImage(file = f"subn_3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/subn_3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = combos,relief = "flat")
     b3.place(x = 657, y = 83,width = 309,height = 707)
 
-    img4 = PhotoImage(file = f"subn_4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/subn_4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = maincourse_sub,relief = "flat")
     b4.place(x = 334, y = 83,width = 309,height = 707)
 
-    img5 = PhotoImage(file = f"back.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = first_menu,relief = "flat")
     b5.place(x = 13, y = 15,width = 59,height = 59)
 
@@ -368,46 +362,46 @@ def snacks():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_snacks.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_snacks.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"sn0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/sn0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Aloo Tikki"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 350)
 
-    img1 = PhotoImage(file = f"sn1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/sn1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Samosa With Chutney"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 84,width = 309,height = 350)
 
-    img2 = PhotoImage(file = f"sn2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/sn2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Dhokla"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 84,width = 309,height = 350)
 
-    img3 = PhotoImage(file = f"sn3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/sn3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Pakora(Assorted)"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 84,width = 309,height = 350)
 
-    img4 = PhotoImage(file = f"sn4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/sn4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chicken Cutlet"),itemcounter(label1)],relief = "flat")
     b4.place(x = 970, y = 441,width = 309,height = 350)
 
-    img5 = PhotoImage(file = f"sn5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/sn5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Raj Kachori"),itemcounter(label1)],relief = "flat")
     b5.place(x = 336, y = 441,width = 309,height = 350)
 
-    img6 = PhotoImage(file = f"sn6.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/sn6.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chicken Lollipop"),itemcounter(label1)],relief = "flat")
     b6.place(x = 653, y = 441,width = 309,height = 350)
 
-    img7 = PhotoImage(file = f"sn7.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/sn7.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chicken Nugget"),itemcounter(label1)],relief = "flat")
     b7.place(x = 19, y = 441,width = 309,height = 350)
 
-    img8 = PhotoImage(file = f"back.png")
+    img8 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b8 = Button(image = img8,borderwidth = 0,highlightthickness = 0,command = north_indiansub,relief = "flat")
     b8.place(x = 19, y = 15,width = 59,height = 59)
 
-    img9 = PhotoImage(file = f"cart.png")
+    img9 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b9 = Button(image = img9,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("snacks"),relief = "flat")
     b9.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -431,26 +425,26 @@ def maincourse_sub():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_submain.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_submain.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"m0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/m0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = mainmaincourse,relief = "flat")
     b0.place(x = 20, y = 91,width = 1257,height = 192)
 
-    img1 = PhotoImage(file = f"m1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/m1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = roti,relief = "flat")
     b1.place(x = 20, y = 318,width = 1257,height = 203)
 
-    img2 = PhotoImage(file = f"m2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/m2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = nonveg,relief = "flat")
     b2.place(x = 20, y = 556,width = 1257,height = 203)
 
-    img3 = PhotoImage(file = f"back.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = north_indiansub,relief = "flat")
     b3.place(x = 0, y = 13,width = 59,height = 59)
 
-    img4 = PhotoImage(file = f"cart.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("maincourse_sub"),relief = "flat")
     b4.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -475,46 +469,46 @@ def mainmaincourse():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_main.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_main.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"main0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/main0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chole Bhature"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 350)
 
-    img1 = PhotoImage(file = f"main1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/main1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Paneer Tikka"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 84,width = 309,height = 350)
 
-    img2 = PhotoImage(file = f"main2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/main2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Pao Bhaji"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 83,width = 309,height = 352)
 
-    img3 = PhotoImage(file = f"main3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/main3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Matar Kulcha"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 84,width = 309,height = 350)
 
-    img4 = PhotoImage(file = f"main4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/main4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Dal Tadka"),itemcounter(label1)],relief = "flat")
     b4.place(x = 970, y = 441,width = 309,height = 350)
 
-    img5 = PhotoImage(file = f"main5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/main5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Paneer Butter Masala"),itemcounter(label1)],relief = "flat")
     b5.place(x = 336, y = 441,width = 309,height = 350)
 
-    img6 = PhotoImage(file = f"main6.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/main6.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Dal Makhni"),itemcounter(label1)],relief = "flat")
     b6.place(x = 653, y = 441,width = 309,height = 350)
 
-    img7 = PhotoImage(file = f"main7.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/main7.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chana Masala"),itemcounter(label1)],relief = "flat")
     b7.place(x = 19, y = 441,width = 309,height = 350)
 
-    img8 = PhotoImage(file = f"back.png")
+    img8 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b8 = Button(image = img8,borderwidth = 0,highlightthickness = 0,command = maincourse_sub,relief = "flat")
     b8.place(x = 19, y = 15,width = 59,height = 59)
 
-    img9 = PhotoImage(file = f"cart.png")
+    img9 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b9 = Button(image = img9,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("mainmaincourse"),relief = "flat")
     b9.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -539,46 +533,46 @@ def roti():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_roti.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_roti.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"ro0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/ro0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Aloo Paneer Parantha"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 352)
 
-    img1 = PhotoImage(file = f"ro1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/ro1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Butter Roti"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 84,width = 308,height = 352)
 
-    img2 = PhotoImage(file = f"ro2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/ro2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Naan"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 83,width = 309,height = 352)
 
-    img3 = PhotoImage(file = f"ro3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/ro3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Lachha Parantha"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 84,width = 309,height = 352)
 
-    img4 = PhotoImage(file = f"ro4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/ro4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Veg Raita"),itemcounter(label1)],relief = "flat")
     b4.place(x = 970, y = 441,width = 309,height = 349)
 
-    img5 = PhotoImage(file = f"ro5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/ro5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Jeera Rice"),itemcounter(label1)],relief = "flat")
     b5.place(x = 336, y = 441,width = 308,height = 349)
 
-    img6 = PhotoImage(file = f"ro6.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/ro6.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Veg Pulao"),itemcounter(label1)],relief = "flat")
     b6.place(x = 653, y = 441,width = 309,height = 349)
 
-    img7 = PhotoImage(file = f"ro7.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/ro7.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Plain Rice"),itemcounter(label1)],relief = "flat")
     b7.place(x = 19, y = 441,width = 309,height = 349)
 
-    img8 = PhotoImage(file = f"back.png")
+    img8 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b8 = Button(image = img8,borderwidth = 0,highlightthickness = 0,command = maincourse_sub,relief = "flat")
     b8.place(x = 19, y = 15,width = 59,height = 59)
 
-    img9 = PhotoImage(file = f"cart.png")
+    img9 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b9 = Button(image = img9,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("roti"),relief = "flat")
     b9.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -603,46 +597,46 @@ def nonveg():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_nv.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_nv.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"nv0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/nv0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Rogan Josh"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 350)
 
-    img1 = PhotoImage(file = f"nv1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/nv1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Nihari Gosht"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 84,width = 309,height = 350)
 
-    img2 = PhotoImage(file = f"nv2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/nv2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Butter Chicken"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 83,width = 309,height = 352)
 
-    img3 = PhotoImage(file = f"nv3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/nv3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Mutton Curry"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 84,width = 309,height = 350)
 
-    img4 = PhotoImage(file = f"nv4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/nv4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chicken Dum Biryani"),itemcounter(label1)],relief = "flat")
     b4.place(x = 970, y = 441,width = 309,height = 350)
 
-    img5 = PhotoImage(file = f"nv5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/nv5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Rajasthani Laal Maas"),itemcounter(label1)],relief = "flat")
     b5.place(x = 336, y = 441,width = 309,height = 350)
 
-    img6 = PhotoImage(file = f"nv6.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/nv6.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chicken Shawarma"),itemcounter(label1)],relief = "flat")
     b6.place(x = 653, y = 441,width = 309,height = 350)
 
-    img7 = PhotoImage(file = f"nv7.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/nv7.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Prawn Curry"),itemcounter(label1)],relief = "flat")
     b7.place(x = 19, y = 441,width = 309,height = 350)
 
-    img8 = PhotoImage(file = f"back.png")
+    img8 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b8 = Button(image = img8,borderwidth = 0,highlightthickness = 0,command = maincourse_sub,relief = "flat")
     b8.place(x = 19, y = 15,width = 59,height = 59)
 
-    img9 = PhotoImage(file = f"cart.png")
+    img9 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b9 = Button(image = img9,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("nonveg"),relief = "flat")
     b9.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -667,38 +661,38 @@ def combos():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_combos.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_combos.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"cm0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/cm0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Special Thali"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 700)
 
-    img1 = PhotoImage(file = f"cm1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/cm1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Deluxe Thali"),itemcounter(label1)],relief = "flat")
     b1.place(x = 353, y = 85,width = 309,height = 700)
 
-    img2 = PhotoImage(file = f"cm2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/cm2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Rajma Rice Bowl"),itemcounter(label1)],relief = "flat")
     b2.place(x = 687, y = 85,width = 593,height = 169)
 
-    img3 = PhotoImage(file = f"cm3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/cm3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chicken Rice Bowl"),itemcounter(label1)],relief = "flat")
     b3.place(x = 687, y = 605,width = 593,height = 170)
 
-    img4 = PhotoImage(file = f"cm4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/cm4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Manchurian Rice Bowl"),itemcounter(label1)],relief = "flat")
     b4.place(x = 687, y = 432,width = 593,height = 169)
 
-    img5 = PhotoImage(file = f"cm5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/cm5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Choley Rice Bowl"),itemcounter(label1)],relief = "flat")
     b5.place(x = 687, y = 259,width = 593,height = 169)
 
-    img6 = PhotoImage(file = f"cart.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command =lambda: cart_window("combos"),relief = "flat")
     b6.place(x = 1133, y = 6,width = 83,height = 71)
 
-    img7 = PhotoImage(file = f"back.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = north_indiansub,relief = "flat")
     b7.place(x = 19, y = 15,width = 59,height = 59)
 
@@ -723,46 +717,46 @@ def dessert():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_dessert.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_dessert.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"de0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/de0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Ras Malai"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 352)
 
-    img1 = PhotoImage(file = f"de1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/de1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Rasgulla"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 84,width = 308,height = 352)
 
-    img2 = PhotoImage(file = f"de2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/de2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Gulab Jamun"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 83,width = 309,height = 352)
 
-    img3 = PhotoImage(file = f"de3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/de3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Moong Dal Halwa"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 84,width = 309,height = 352)
 
-    img4 = PhotoImage(file = f"de4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/de4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Pastry(Assorted)"),itemcounter(label1)],relief = "flat")
     b4.place(x = 970, y = 441,width = 309,height = 349)
 
-    img5 = PhotoImage(file = f"de5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/de5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Imarti"),itemcounter(label1)],relief = "flat")
     b5.place(x = 336, y = 441,width = 309,height = 349)
 
-    img6 = PhotoImage(file = f"de6.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/de6.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Kesar Kheer"),itemcounter(label1)],relief = "flat")
     b6.place(x = 653, y = 441,width = 309,height = 349)
 
-    img7 = PhotoImage(file = f"de7.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/de7.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Kesar Kulfi"),itemcounter(label1)],relief = "flat")
     b7.place(x = 19, y = 441,width = 309,height = 349)
 
-    img8 = PhotoImage(file = f"back.png")
+    img8 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b8 = Button(image = img8,borderwidth = 0,highlightthickness = 0,command = north_indiansub,relief = "flat")
     b8.place(x = 19, y = 15,width = 59,height = 59)
 
-    img9 = PhotoImage(file = f"cart.png")
+    img9 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b9 = Button(image = img9,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("dessert"),relief = "flat")
     b9.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -788,43 +782,43 @@ def southindian():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_south.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_south.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"south0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/south0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Rawa Masala Dosa"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 350)
 
-    img1 = PhotoImage(file = f"south1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/south1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Sambar Dosa"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 84,width = 309,height = 350)
 
-    img2 = PhotoImage(file = f"south2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/south2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Sambar Idli"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 83,width = 309,height = 352)
 
-    img3 = PhotoImage(file = f"south3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/south3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("South Indian Platter"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 84,width = 309,height = 708)
 
-    img4 = PhotoImage(file = f"south4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/south4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Masala Dosa"),itemcounter(label1)],relief = "flat")
     b4.place(x = 336, y = 441,width = 309,height = 350)
 
-    img5 = PhotoImage(file = f"south5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/south5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chicken Dosa"),itemcounter(label1)],relief = "flat")
 
     b5.place(x = 653, y = 441,width = 309,height = 350)
 
-    img6 = PhotoImage(file = f"south6.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/south6.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Plain Dosa"),itemcounter(label1)],relief = "flat")
     b6.place(x = 19, y = 441,width = 309,height = 350)
 
-    img7 = PhotoImage(file = f"back.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = first_menu,relief = "flat")
     b7.place(x = 19, y = 15,width = 59,height = 59)
 
-    img8 = PhotoImage(file = f"cart.png")
+    img8 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b8 = Button(image = img8,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("southindian"),relief = "flat")
     b8.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -850,46 +844,46 @@ def continental():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_con.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_con.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"con0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/con0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Pizza"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 350)
 
-    img1 = PhotoImage(file = f"con1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/con1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Crispy Calamari Rings"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 84,width = 309,height = 350)
 
-    img2 = PhotoImage(file = f"con2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/con2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Paneer Steak"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 83,width = 309,height = 352)
 
-    img3 = PhotoImage(file = f"con3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/con3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Sausage Pepper Burger"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 84,width = 309,height = 350)
 
-    img4 = PhotoImage(file = f"con4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/con4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Walnut Pudding"),itemcounter(label1)],relief = "flat")
     b4.place(x = 970, y = 441,width = 309,height = 350)
 
-    img5 = PhotoImage(file = f"con5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/con5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Corn Toasties"),itemcounter(label1)],relief = "flat")
     b5.place(x = 336, y = 441,width = 309,height = 350)
 
-    img6 = PhotoImage(file = f"con6.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/con6.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chocolate Pudding"),itemcounter(label1)],relief = "flat")
     b6.place(x = 653, y = 441,width = 309,height = 350)
 
-    img7 = PhotoImage(file = f"con7.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/con7.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Mutton Stew"),itemcounter(label1)],relief = "flat")
     b7.place(x = 19, y = 441,width = 309,height = 350)
 
-    img8 = PhotoImage(file = f"back.png")
+    img8 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b8 = Button(image = img8,borderwidth = 0,highlightthickness = 0,command = first_menu,relief = "flat")
     b8.place(x = 19, y = 15,width = 59,height = 59)
 
-    img9 = PhotoImage(file = f"cart.png")
+    img9 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b9 = Button(image = img9,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("continental"),relief = "flat")
     b9.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -914,46 +908,46 @@ def beverages():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_bev.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_bev.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"bev0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/bev0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Fresh Lime Soda"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 350)
 
-    img1 = PhotoImage(file = f"bev1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/bev1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Coffee(Espresso)"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 84,width = 309,height = 350)
 
-    img2 = PhotoImage(file = f"bev2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assetsimages/vbev2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Water"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 83,width = 309,height = 352)
 
-    img3 = PhotoImage(file = f"bev3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/bev3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Coca Cola"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 84,width = 309,height = 350)
 
-    img4 = PhotoImage(file = f"bev4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/bev4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Mixed Fruit Juice"),itemcounter(label1)],relief = "flat")
     b4.place(x = 970, y = 441,width = 309,height = 350)
 
-    img5 = PhotoImage(file = f"bev5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/bev5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Hot Chocolate"),itemcounter(label1)],relief = "flat")
     b5.place(x = 336, y = 441,width = 309,height = 350)
 
-    img6 = PhotoImage(file = f"bev6.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/bev6.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Classic Mojito"),itemcounter(label1)],relief = "flat")
     b6.place(x = 653, y = 441,width = 309,height = 350)
 
-    img7 = PhotoImage(file = f"bev7.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/bev7.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Tea"),itemcounter(label1)],relief = "flat")
     b7.place(x = 19, y = 441,width = 309,height = 350)
 
-    img8 = PhotoImage(file = f"back.png")
+    img8 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b8 = Button(image = img8,borderwidth = 0,highlightthickness = 0,command = first_menu,relief = "flat")
     b8.place( x = 19, y = 15,width = 59,height = 59)
 
-    img9 = PhotoImage(file = f"cart.png")
+    img9 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b9 = Button(image = img9,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("beverages"),relief = "flat")
     b9.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -977,22 +971,22 @@ def soupsal():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_ss.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_ss.png")
     background = canvas.create_image(647.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"back.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = first_menu,relief = "flat")
     b0.place(x = 19, y = 15,width = 59,height = 59)
 
-    img1 = PhotoImage(file = f"cart.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("soupsal"),relief = "flat")
     b1.place(x = 1133, y = 6,width = 83,height = 71)
 
-    img2 = PhotoImage(file = f"ss2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/ss2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = soupmenu,relief = "flat")
     b2.place(x = 14, y = 92,width = 630,height = 690)
 
-    img3 = PhotoImage(file = f"ss3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/ss3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = saladmenu,relief = "flat")
     b3.place(x = 654, y = 92,width = 630,height = 690)
 
@@ -1017,46 +1011,46 @@ def soupmenu():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_soup.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_soup.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"soup0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/soup0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Tomato Soup"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 84,width = 309,height = 350)
 
-    img1 = PhotoImage(file = f"soup1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/soup1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Lentil Soup"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 84,width = 309,height = 350)
 
-    img2 = PhotoImage(file = f"soup2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/soup2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("French Onion Soup"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 83,width = 309,height = 352)
 
-    img3 = PhotoImage(file = f"soup3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/soup3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Sweet Corn Soup"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 84,width = 309,height = 350)
 
-    img4 = PhotoImage(file = f"soup4.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/soup4.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Hot And Sour Soup"),itemcounter(label1)],relief = "flat")
     b4.place(x = 970, y = 441,width = 309,height = 350)
 
-    img5 = PhotoImage(file = f"soup5.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/soup5.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chicken and Rice Soup"),itemcounter(label1)],relief = "flat")
     b5.place(x = 336, y = 441,width = 309,height = 350)
 
-    img6 = PhotoImage(file = f"soup6.png")
+    img6 = PhotoImage(file = f"Delivery-Management-System/assets/images/soup6.png")
     b6 = Button(image = img6,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Chicken Noodle Soup"),itemcounter(label1)],relief = "flat")
     b6.place(x = 653, y = 441,width = 309,height = 350)
 
-    img7 = PhotoImage(file = f"soup7.png")
+    img7 = PhotoImage(file = f"Delivery-Management-System/assets/images/soup7.png")
     b7 = Button(image = img7,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Pea Soup"),itemcounter(label1)],relief = "flat")
     b7.place(x = 19, y = 441,width = 309,height = 350)
 
-    img8 = PhotoImage(file = f"back.png")
+    img8 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b8 = Button(image = img8,borderwidth = 0,highlightthickness = 0,command = soupsal,relief = "flat")
     b8.place(x = 19, y = 15,width = 59,height = 59)
 
-    img9 = PhotoImage(file = f"cart.png")
+    img9 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b9 = Button(image = img9,borderwidth = 0,highlightthickness = 0,command =lambda: cart_window("soup") ,relief = "flat")
     b9.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -1081,30 +1075,30 @@ def saladmenu():
     canvas = Canvas(root,bg = "#ffffff",height = 800,width = 1298,bd = 0,highlightthickness = 0,relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file = f"background_salad.png")
+    background_img = PhotoImage(file = f"Delivery-Management-System/assets/images/background_salad.png")
     background = canvas.create_image(649.0, 400.0,image=background_img)
 
-    img0 = PhotoImage(file = f"salad0.png")
+    img0 = PhotoImage(file = f"Delivery-Management-System/assets/images/salad0.png")
     b0 = Button(image = img0,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Summer Asian Slaw"),itemcounter(label1)],relief = "flat")
     b0.place(x = 19, y = 87,width = 309,height = 706)
 
-    img1 = PhotoImage(file = f"salad1.png")
+    img1 = PhotoImage(file = f"Delivery-Management-System/assets/images/salad1.png")
     b1 = Button(image = img1,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Broccoli Salad"),itemcounter(label1)],relief = "flat")
     b1.place(x = 336, y = 87,width = 309,height = 706)
 
-    img2 = PhotoImage(file = f"salad2.png")
+    img2 = PhotoImage(file = f"Delivery-Management-System/assets/images/salad2.png")
     b2 = Button(image = img2,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Pasta Salad"),itemcounter(label1)],relief = "flat")
     b2.place(x = 653, y = 87,width = 309,height = 706)
 
-    img3 = PhotoImage(file = f"salad3.png")
+    img3 = PhotoImage(file = f"Delivery-Management-System/assets/images/salad3.png")
     b3 = Button(image = img3,borderwidth = 0,highlightthickness = 0,command = lambda: [item_list.append("Broccoli Pasta Salad"),itemcounter(label1)],relief = "flat")
     b3.place(x = 970, y = 87,width = 312,height = 706)
 
-    img4 = PhotoImage(file = f"back.png")
+    img4 = PhotoImage(file = f"Delivery-Management-System/assets/images/back.png")
     b4 = Button(image = img4,borderwidth = 0,highlightthickness = 0,command = soupsal,relief = "flat")
     b4.place(x = 19, y = 15,width = 59,height = 59)
 
-    img5 = PhotoImage(file = f"cart.png")
+    img5 = PhotoImage(file = f"Delivery-Management-System/assets/images/cart.png")
     b5 = Button(image = img5,borderwidth = 0,highlightthickness = 0,command = lambda: cart_window("salad"),relief = "flat")
     b5.place(x = 1133, y = 6,width = 83,height = 71)
 
@@ -1114,7 +1108,6 @@ def saladmenu():
     root.resizable(False, False)
     root.mainloop()
 
-#Creating dictionary from item list and going to cart window
 def cart_window(back_var):
     root.destroy()
     global item_list
@@ -1127,7 +1120,7 @@ def cart_window(back_var):
     for i in item_dict.keys():
         if item_dict[i]>12:
             item_dict[i]=12
-    cartwindow.creator(item_dict)
+    Cartwindow.creator(item_dict)
     
 
 
